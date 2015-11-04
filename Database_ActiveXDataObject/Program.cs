@@ -66,12 +66,28 @@ namespace Database_ActiveXDataObject
             //2.create the command object
             SqlCommand cmd2 = new SqlCommand(insertString, conn2);
             //3. excute the non-query
-            cmd2.ExecuteNonQuery(); // when insert then return nonthing, then use NonQuery
+            cmd2.ExecuteNonQuery(); // when [insert, delete, update] then return nonthing, then use NonQuery
 
             /*
              * using System.Data.SqlClient; > will include all libraries needed
              * 
              */
+
+            //For Single [ave, count, sum, max ,min]- value queries > use [ExecuteScalar();]
+            //Getting a single value
+            SqlCommand sqlcom = new SqlCommand("Select count(*) from students", conn2);
+            int count = Convert.ToInt32(sqlcom.ExecuteScalar());
+
+            //update [excute NonQuery]
+            string updateString = @"UPDATE students SET stID = '003' WHERE stID = '001'";
+            SqlCommand sqlcomdUpdate = new SqlCommand(updateString);
+            sqlcomdUpdate.Connection = conn2;//setting the property > overload
+
+            //overload
+            SqlCommand sqlcomd2 = new SqlCommand();
+            sqlcomd2.Connection = conn2;
+            sqlcomd2.CommandText = "Select * from students";
+
         }
     }
 }
